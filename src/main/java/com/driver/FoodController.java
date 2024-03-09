@@ -15,29 +15,35 @@ public class FoodController {
     private Order currentOrder;
 
     public FoodController() {
-    	// your code goes here
+        menu = new Menu();
+        currentOrder = new Order();
+
+        // Add some sample menu items
+        menu.addMenuItem(new Food(1, "Pizza", 12.99));
+        menu.addMenuItem(new Food(2, "Burger", 8.99));
+        menu.addMenuItem(new Food(3, "Pasta", 10.49));
     }
 
     @GetMapping("/menu")
     public List<Food> getMenu() {
-    	// your code goes here
         return menu.getMenuItems();
     }
 
     @PostMapping("/order/{itemId}")
     public void placeOrder(@PathVariable int itemId) {
-    	// your code goes here
+        Food foodItem = menu.getMenuItemById(itemId);
+        if (foodItem != null) {
+            currentOrder.addItem(foodItem);
+        }
     }
 
     @GetMapping("/order")
     public Order getCurrentOrder() {
-    	// your code goes here
         return currentOrder;
     }
 
     @GetMapping("/order/total")
     public double getTotalBill() {
-    	// your code goes here
         return currentOrder.getTotalBill();
     }
 }
